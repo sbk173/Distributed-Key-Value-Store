@@ -1,6 +1,6 @@
 ## Pre-Requirements
 - OS: Linux/MacOS
-- etcd (version: 3.5.2)
+- etcd (version: 3.5.12)
 - Python 3.11+
 - etcd3 module (pip install etcd3)
 
