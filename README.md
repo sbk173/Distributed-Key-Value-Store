@@ -5,7 +5,8 @@
 - etcd3 module (pip install etcd3)
 
 ## Execution
-- Launch etcd in one terminal (etcd --confing-file <"path to config file">
+- Make appropriate changes to etcd.conf.yml 
+- Launch etcd in one terminal (etcd --confing-file <"path to etcd.conf.yml">
 - ./run.sh
 
 
