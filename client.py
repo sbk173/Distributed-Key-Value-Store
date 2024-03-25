@@ -16,7 +16,7 @@ class Client:
         try:
             value, metadata = self.client.get(key)
             print(key, ":", value.decode('utf-8'))
-        except etcd3.exceptions.KeyNotFoundError:
+        except etcd3.exceptions.Etcd3Exception:
             print("KeyError: Key '{}' not found.".format(key))
         except Exception as e:
             print("Error getting value for key '{}': {}".format(key, e))
@@ -28,7 +28,7 @@ class Client:
         try:
             self.client.delete(key)
             print("Key '{}' deleted successfully.".format(key))
-        except etcd3.exceptions.KeyNotFoundError:
+        except etcd3.exceptions.Etcd3Exception:
             print("KeyError: Key '{}' not found.".format(key))
         except Exception as e:
             print("Error deleting key '{}': {}".format(key, e))
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     client = Client()
     client.get_all_keys()
     client.get_value('a')
-    client.put_key('beta', 100)
+    client.put_key('beta', '100')
     client.get_all_keys()
     client.delete_key('beta')
     client.get_all_keys()
