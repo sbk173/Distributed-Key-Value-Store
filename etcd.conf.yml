@@ -1,9 +1,9 @@
 name: 'n1'
-data-dir: /home/saadbk/kluster
+data-dir: /home/orange/Desktop/CloudComputing
 listen-peer-urls: http://localhost:2380
-listen-client-urls: http://localhost:2379,http://192.168.155.80:2379
-initial-advertise-peer-urls: http://192.168.155.80:2380
-advertise-client-urls: http://192.168.155.80:2379
-initial-cluster: node-1=http://192.168.155.80:2380
-initial-cluster-token: 'etcd-cluster-1'
-init-cluster-state: 'new'
+listen-client-urls: http://localhost:2379,http://10.0.2.15:2379
+initial-advertise-peer-urls: http://10.0.2.15:2380
+advertise-client-urls: http://10.0.2.15:2379
+initial-cluster: n1=http://10.0.2.15:2380
+initial-cluster-token: etcd-cluster-1
+initial-cluster-state: new

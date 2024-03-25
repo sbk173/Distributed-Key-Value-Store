@@ -1,2 +1,2 @@
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
-python3 ./client.py
+python3 ./app.py
