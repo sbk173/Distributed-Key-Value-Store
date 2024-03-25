@@ -6,8 +6,8 @@
 
 ## Execution
 - Make appropriate changes to etcd.conf.yml 
-- Launch etcd in one terminal (etcd --confing-file <"path to etcd.conf.yml">
-- ./run.sh
+- Launch etcd in one terminal (etcd --config-file <"path to etcd.conf.yml">
+- Open another terminal window (./run.sh)
 
 
 
