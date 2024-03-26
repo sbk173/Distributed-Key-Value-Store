@@ -83,4 +83,4 @@ def list_keys():
     return render_template('list.html', keys=keys)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
