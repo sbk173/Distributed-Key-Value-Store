@@ -10,3 +10,4 @@
 - Open another terminal window (./run.sh)
 - Open a browser window and use the application on <http://127.0.0.1:5000>
 - App is currently in debugging mode (to be changed later)
+- To run the tests execute (./test.sh) in a terminal window
