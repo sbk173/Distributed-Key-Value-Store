@@ -49,9 +49,10 @@ class Client:
         Returns:
             str: The value associated with the given key.
         """
-        
         try:
             value, metadata = self.client.get(key)
+            if value is None:
+                raise etcd3.exceptions.Etcd3Exception
             return key + " : " + value.decode('utf-8')
         except etcd3.exceptions.Etcd3Exception:
             return "KeyError: Key '{}' not found.".format(key)
