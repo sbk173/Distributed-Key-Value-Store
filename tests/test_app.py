@@ -31,7 +31,7 @@ class TestFlaskApp(TestCase):
         self.assertIn('test_key : test_value', response.data.decode('utf-8'))
 
         response = self.client.post('/get', data={'key': 'nonexistent_key'})
-        self.assertIn("Error getting value for key 'nonexistent_key': 'NoneType' object has no attribute 'decode'", response.data.decode('utf-8'))
+        self.assertIn("KeyError: Key 'nonexistent_key' not found.", response.data.decode('utf-8'))
 
     def test_delete_route(self):
         self.client.post('/put', data={'key': 'test_key', 'value': 'test_value'})
