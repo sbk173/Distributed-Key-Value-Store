@@ -1,9 +1,26 @@
 from flask import Flask, render_template, request
 from client import Client    # Import the Client class from client.py file
+import threading
 
 app = Flask(__name__)
-client = Client()  # Instantiate the client
+available_endpoints = ["http://192.168.1.25:2379", "http://192.168.1.25:2380", "http://192.168.1.25:2381"]
 
+client = Client(available_endpoints)  # Instantiate the client
+
+
+def reconnect_thread():
+    while True:
+        if not client.is_connection_active():
+            try:
+                client.reconnect()
+            except Exception as e:
+                print(f"Error: {e}")
+        app.logger.debug("Reconnect thread running...")
+        threading.Event().wait(5)
+
+
+connection_thread = threading.Thread(target=reconnect_thread)
+connection_thread.start()
 
 # Route to display available options
 @app.route('/')

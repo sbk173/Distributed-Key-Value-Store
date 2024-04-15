@@ -1,0 +1,9 @@
+name: 'n2'
+data-dir: /Users/sarthakbhat/cluster1/n2
+listen-peer-urls: http://192.168.1.25:2581
+listen-client-urls: http://localhost:2380,http://192.168.1.25:2380
+initial-advertise-peer-urls: http://192.168.1.25:2581
+advertise-client-urls: http://192.168.1.25:2380
+initial-cluster: n1=http://192.168.1.25:2580,n2=http://192.168.1.25:2581,n3=http://192.168.1.25:2582
+initial-cluster-token: etcd-cluster-1
+initial-cluster-state: new

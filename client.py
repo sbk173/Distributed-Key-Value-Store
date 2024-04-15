@@ -1,24 +1,71 @@
 import etcd3
+import random
 
 class Client:
-    """
-    A class for interacting with an etcd server.
-    
-    Attributes:
-        client (etcd3.Client): An instance of etcd3 client.
-    """
-    client = None
-
-    def __init__(self, host='localhost', port=2379):
+    def __init__(self, available_endpoints):
         """
         Initializes the Client object.
-        
-        Args:
-            host (str): The host address of the etcd server. Default is 'localhost'.
-            port (int): The port number of the etcd server. Default is 2379.
-        """
 
-        self.client = etcd3.client(host=host, port=port)
+        Args:
+            available_endpoints (list): A list of endpoint strings in the format "host:port" or "protocol://host:port".
+        """
+        
+        self.available_endpoints = available_endpoints
+        self.check_available_endpoints()
+        if not self.available_endpoints:
+            raise Exception("No available endpoints found")
+        random_endpoint = random.choice(self.available_endpoints)
+        self.host, self.port = random_endpoint.split("//")[-1].split(":")
+        self.client = etcd3.client(host=self.host, port=int(self.port))
+        print(f"Connected to host: {self.host}, port: {self.port}")
+
+    def check_available_endpoints(self):
+        """
+        Checks and updates the list of available endpoints by performing a read operation.
+        """
+        available_endpoints = []
+        for endpoint in self.available_endpoints:
+            host_port = endpoint.split("//")[-1]
+            host, port = host_port.split(":")
+            try:
+                client = etcd3.client(host=host, port=int(port))
+                client.get('/')
+                available_endpoints.append(endpoint)
+            except etcd3.exceptions.ConnectionFailedError:
+                print(f"Failed to connect to {endpoint}")
+            except Exception as e:
+                print(f"Error checking endpoint {endpoint}: {e}")
+
+        self.available_endpoints = available_endpoints
+        print(f"Available endpoints: {self.available_endpoints}")
+
+    def is_connection_active(self):
+        """
+        Checks if the current connection to the etcd server is active.
+
+        Returns:
+            bool: True if the connection is active, False otherwise.
+        """
+        try:
+            self.client.get('/')
+            return True
+        except etcd3.exceptions.ConnectionFailedError:
+            return False
+        except Exception as e:
+            print(f"Error checking connection: {e}")
+            return False
+        
+    def reconnect(self):
+        """
+        Connects to an available endpoint if the current endpoint is down.
+        """
+        self.check_available_endpoints()
+        if not self.available_endpoints:
+            raise Exception("No available endpoints found")
+        random_endpoint = random.choice(self.available_endpoints)
+        self.host, self.port = random_endpoint.split("//")[-1].split(":")
+        self.client = etcd3.client(host=self.host, port=int(self.port))
+        print(f"Connected to host: {self.host}, port: {self.port}")
 
     def get_all_keys(self):
         """
@@ -101,10 +148,3 @@ class Client:
 
 if __name__ == "__main__":
     client = Client()
-    client.put_key('a','200')
-    client.get_all_keys()
-    client.get_value('a')
-    client.put_key('beta', '100')
-    client.get_all_keys()
-    client.delete_key('beta')
-    client.get_all_keys()

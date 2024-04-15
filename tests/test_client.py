@@ -1,6 +1,8 @@
 import unittest
 from client import Client
 
+available_endpoints = ["http://192.168.1.25:2379", "http://192.168.1.25:2380", "http://192.168.1.25:2381"]
+
 class TestClient(unittest.TestCase):
 
     """
@@ -9,7 +11,7 @@ class TestClient(unittest.TestCase):
     """
 
     def setUp(self):
-        self.client = Client()
+        self.client = Client(available_endpoints)
 
     def test_put_key(self):
         self.client.put_key('test_key', 'test_value')
